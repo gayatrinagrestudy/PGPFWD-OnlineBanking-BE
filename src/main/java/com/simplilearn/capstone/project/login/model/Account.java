@@ -28,7 +28,7 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
     
-	private Long accountNumber;
+	private String accountNumber;
 	
 	private BigDecimal accountBalance;
 	
@@ -70,11 +70,11 @@ public class Account {
 		this.accountStatus = accountStatus;
 	}
 
-	public Long getAccountNumber() {
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 
-	public void setAccountNumber(Long accountNumber) {
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 

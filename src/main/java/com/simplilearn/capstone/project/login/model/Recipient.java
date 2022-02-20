@@ -1,11 +1,16 @@
 package com.simplilearn.capstone.project.login.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,11 +27,21 @@ public class Recipient {
     
     private String phone;
     
-    private Long accountNumber;
+    private String accountNumber;
     
     private String remark;
     
     private String bankCode;
+    
+    private String payeeAccount;
+    
+    private String amountCredited;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date transferDate;
+    
+    @Transient
+    private String amountTransfer;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -57,11 +72,11 @@ public class Recipient {
 		this.phone = phone;
 	}
 
-	public Long getAccountNumber() {
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 
-	public void setAccountNumber(Long accountNumber) {
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 
@@ -87,6 +102,38 @@ public class Recipient {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getPayeeAccount() {
+		return payeeAccount;
+	}
+
+	public void setPayeeAccount(String payeeAccount) {
+		this.payeeAccount = payeeAccount;
+	}
+
+	public String getAmountCredited() {
+		return amountCredited;
+	}
+
+	public void setAmountCredited(String amountCredited) {
+		this.amountCredited = amountCredited;
+	}
+
+	public Date getTransferDate() {
+		return transferDate;
+	}
+
+	public void setTransferDate(Date transferDate) {
+		this.transferDate = transferDate;
+	}
+
+	public String getAmountTransfer() {
+		return amountTransfer;
+	}
+
+	public void setAmountTransfer(String amountTransfer) {
+		this.amountTransfer = amountTransfer;
 	}
     
     

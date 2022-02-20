@@ -20,7 +20,7 @@ public class TransactionDetails {
 	private CustomUserDetailsService customUserDetailsService;
 	
 	@RequestMapping("/account/{accntNum}")
-	public List<Transactions> getCustomerDetails(@PathVariable long accntNum) {	
+	public List<Transactions> getCustomerDetails(@PathVariable String accntNum) {	
 		return customUserDetailsService.loadUserTxns(accntNum);
 	}
 

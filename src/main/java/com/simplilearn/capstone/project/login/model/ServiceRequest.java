@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ServiceRequest {
 
@@ -17,7 +19,8 @@ public class ServiceRequest {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
     
-	private Long accountNumber;
+	
+	private String accountNumber;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date requestedDated;
@@ -28,12 +31,20 @@ public class ServiceRequest {
 	private String reqDescription;
 	
 	private int chequeBookPages;
+	
+	public Long getId() {
+		return id;
+	}
 
-	public Long getAccountNumber() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 
-	public void setAccountNumber(Long accountNumber) {
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 

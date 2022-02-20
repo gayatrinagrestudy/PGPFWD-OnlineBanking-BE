@@ -40,32 +40,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		
-		//get jwt -> start with Bearer -> validate
-		
-	
 	final String authorizationHeader = request.getHeader(environment.getProperty("authorization.token.header.name"));
 	
 
     String username = null;
     String jwtToken = null;
- 
-    for(Entry<String, String[]> entry: request.getParameterMap().entrySet()) {
-    	 System.out.println(" KEY : VALUE : " +entry.getKey()+" : " +entry.getValue());
-    }
-   
-    
+
     if (authorizationHeader != null && authorizationHeader.startsWith(environment.getProperty("authorization.token.header.prefix"))) {
     	 jwtToken = authorizationHeader.replace(environment.getProperty("authorization.token.header.prefix"), "");
          username = jwtUtil.extractUsername(jwtToken);
     }
 
-    System.out.println("jwtRequest -------- > " +jwtToken);
-	System.out.println("username -------- > " +username);
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
-        System.out.println("userDetails -------- > " +userDetails);
         if (jwtUtil.validateToken(jwtToken, userDetails)) {
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -73,7 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             usernamePasswordAuthenticationToken
                     .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            System.out.println("validateToken -------- > " );
         }
     }
     filterChain.doFilter(request, response);

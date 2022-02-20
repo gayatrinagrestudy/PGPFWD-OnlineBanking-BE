@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 		.antMatchers("/token")
 		.permitAll()	
-				  .antMatchers("/home/**","/dashboard/users/**", "/transactions/**","/user/**") .permitAll()				 
+				  .antMatchers("/home/**","/dashboard/users/**", "/transactions/**","/user/**","user/recipient/**" ) .permitAll()				 
 		.anyRequest().authenticated()
 		.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

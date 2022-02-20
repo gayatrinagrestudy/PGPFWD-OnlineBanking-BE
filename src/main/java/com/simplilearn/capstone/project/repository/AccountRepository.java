@@ -1,8 +1,10 @@
 package com.simplilearn.capstone.project.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.simplilearn.capstone.project.login.model.Account;
@@ -17,15 +19,15 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
 	
 	@Query("SELECT txn FROM Transactions txn LEFT JOIN Account accnt ON (txn.account.accountNumber = accnt.accountNumber) "
 			+ "WHERE accnt.accountNumber = :acctNum")
-	public List<Transactions> findTxnListByAccountNumber(Long acctNum);
+	public List<Transactions> findTxnListByAccountNumber(String acctNum);
 	
-	@Query("SELECT rec FROM Recipient rec JOIN Account accnt ON (rec.accountNumber = accnt.accountNumber) "
-			+ "WHERE rec.accountNumber = :acctNum")
-	public List<Recipient> findRecipientByAccountNumber(Long acctNum);
+	public Account findByAccountNumber(String acctNum);
 	
-	@Query("SELECT sreq FROM ServiceRequest sreq JOIN Account accnt ON (sreq.accountNumber = accnt.accountNumber) "
-			+ "WHERE sreq.accountNumber = :acctNum")
-	public List<ServiceRequest> findServiceReqsByAccountNumber(Long acctNum);
+	@Modifying
+	@Query("Update Account accnt set accnt.accountBalance =:amount WHERE accnt.accountNumber = :acctNum")
+	public void updateAccountForTransfer(BigDecimal amount, String acctNum);
+
+
 	
 
 }
