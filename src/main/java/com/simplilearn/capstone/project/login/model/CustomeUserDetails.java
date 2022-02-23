@@ -23,8 +23,6 @@ public class CustomeUserDetails implements UserDetails{
     private ModelMapper modelMapper;
 
 	public CustomeUserDetails(User user) {
-		UserDto userDto = convertToDto (user);
-		
 		this.user = user;
 	}
 
@@ -77,18 +75,6 @@ public class CustomeUserDetails implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
-	}
-	
-
-	private UserDto convertToDto(User post) {
-		ModelMapper modelMapper = new ModelMapper(); 
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
-		UserDto postDto = modelMapper.map(post, UserDto.class);
-	    return postDto;
-	}
-	
-	private User convertToEntity(UserDto userDto) {
-		return new ModelMapper().map(userDto, User.class);
 	}
 
 }

@@ -12,9 +12,8 @@ public class Home {
 	
 	@RequestMapping("/welcome")
 	public String welcome() {
-		String txt = "This is private page.";
-		txt+="abr";
-		return txt;
+		
+		return "Welcome !";
 	}
 	
 	

@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.simplilearn.capstone.project.login.model.Account;
+import com.simplilearn.capstone.project.login.model.AdminData;
 import com.simplilearn.capstone.project.login.model.CustomeUserDetails;
 import com.simplilearn.capstone.project.login.model.Customer;
 import com.simplilearn.capstone.project.login.model.Recipient;
@@ -24,9 +25,11 @@ import com.simplilearn.capstone.project.login.model.ServiceRequest;
 import com.simplilearn.capstone.project.login.model.Transactions;
 import com.simplilearn.capstone.project.login.model.User;
 import com.simplilearn.capstone.project.repository.AccountRepository;
+import com.simplilearn.capstone.project.repository.AdminRepository;
 import com.simplilearn.capstone.project.repository.CustomerDetailsRepository;
 import com.simplilearn.capstone.project.repository.RecipientRepository;
 import com.simplilearn.capstone.project.repository.ServiceRequestRepository;
+import com.simplilearn.capstone.project.repository.TransactionRepository;
 import com.simplilearn.capstone.project.repository.UserRepository;
 
 @Service
@@ -48,12 +51,17 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Autowired
 	private RecipientRepository recipientRepository;
 	
+	@Autowired
+	private TransactionRepository transactionRepository;
+	
+	@Autowired
+	private AdminRepository adminRepository;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		
 		final User user = userRepository.findByUsername(username);	
-		System.out.println("CustomUserDetailsService User - " +user);
 		if(user==null) {
 			throw new UsernameNotFoundException("User Not Found !");
 		}
@@ -64,7 +72,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 	public List<Customer> loadUserByLoginId(String loginid)
 			throws UsernameNotFoundException {
 		List<Customer> customer = customerDetailsRepository.findByLoginId(loginid);	
-		System.out.println("CustomUserDetailsService User - " +customer);
 		if(customer==null) {
 			throw new UsernameNotFoundException("User Not Found !");
 		}
@@ -120,19 +127,21 @@ public class CustomUserDetailsService implements UserDetailsService{
 		String acctn = recipientDetails.getAccountNumber().replaceAll("^\"|\"$", "");
 		recipientDetails.setAccountNumber(acctn);
 		Recipient recipient = loadRecipientBuAccNum(recipientDetails.getAccountNumber());
-		System.out.println("recipient.getAmountCredited() = "+recipient.getAmountCredited());
-		System.out.println("recipientDetails.getAmountCredited() = "+recipientDetails.getAmountCredited());
 		if(recipient.getAmountCredited()==null) {
 			totalAmount = Long.valueOf(recipientDetails.getAmountCredited());
 		} else {
 			totalAmount = Long.valueOf(recipient.getAmountCredited())+Long.valueOf(recipientDetails.getAmountTransfer());
 		}
-		System.out.println(" totalAmount " +totalAmount);
 		amtTobeDeducted = Long.valueOf(recipientDetails.getAmountTransfer());
 		recipientRepository.updateRecipient(recipientDetails.getAccountNumber(),totalAmount.toString(),recipientDetails.getTransferDate());
 		Account account = accountRepository.findByAccountNumber(recipientDetails.getPayeeAccount());
 		totalAmtDeducted = account.getAccountBalance().longValue() - amtTobeDeducted;
-		System.out.println("amtDeducted = "+amtTobeDeducted);
+		Transactions txn = new Transactions();
+		txn.setAccount(account);
+		txn.setRemark(recipientDetails.getRemark());
+		txn.setWithdraw(BigDecimal.valueOf(amtTobeDeducted));
+		txn.setTxnDate(recipientDetails.getTransferDate());
+		transactionRepository.save(txn);
 		accountRepository.updateAccountForTransfer(BigDecimal.valueOf(totalAmtDeducted),recipientDetails.getPayeeAccount());
 	}
 	
@@ -141,4 +150,14 @@ public class CustomUserDetailsService implements UserDetailsService{
 		Recipient recipient = recipientRepository.findRecipientByAccount(accountNumber);
 		return recipient;
 	}
+	
+	public List<AdminData> loadAllUserDetails() {
+		return adminRepository.findAll();
+	}
+	
+	public void UpdateAccountStatus(String status,String accountNum) {
+		 adminRepository.updateUserAcctStatus(status,accountNum);
+		
+	}
+	
 }

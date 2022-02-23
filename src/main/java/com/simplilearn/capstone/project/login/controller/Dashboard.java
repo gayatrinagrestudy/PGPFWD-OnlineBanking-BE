@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simplilearn.capstone.project.login.model.Account;
+import com.simplilearn.capstone.project.login.model.AdminData;
 import com.simplilearn.capstone.project.login.model.CustomeUserDetails;
 import com.simplilearn.capstone.project.login.model.Customer;
 import com.simplilearn.capstone.project.login.model.User;
@@ -43,5 +44,14 @@ public class Dashboard {
 	public List<Account> getAccSummary(@PathVariable String username) {	
 		return customUserDetailsService.loadUserAccount(username);
 	}
-
+   
+	@RequestMapping("/users/all")
+	public List<AdminData> getAllCustomerDetails() {	
+		return customUserDetailsService.loadAllUserDetails();
+	} 
+	
+	@RequestMapping("/users/account/statusupdate/{status}/{acctNum}")
+	public void updateAcctStatus(@PathVariable String status, @PathVariable String acctNum) {	
+		 customUserDetailsService.UpdateAccountStatus(status,acctNum);
+	} 
 }

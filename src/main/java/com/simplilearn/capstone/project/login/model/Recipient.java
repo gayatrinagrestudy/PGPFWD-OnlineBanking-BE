@@ -20,8 +20,8 @@ public class Recipient {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-    private String name;
+
+	private String name;
     
     private String email;
     
@@ -135,6 +135,13 @@ public class Recipient {
 	public void setAmountTransfer(String amountTransfer) {
 		this.amountTransfer = amountTransfer;
 	}
-    
+	
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
     
 }
