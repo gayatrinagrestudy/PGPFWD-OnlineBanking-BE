@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Customer {
 
@@ -47,10 +49,12 @@ public class Customer {
 	@Embedded
 	private UserAddress address;
 	
-    @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Account> account;
     
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Recipient> recipientList;
     
     private boolean isAdminRole;

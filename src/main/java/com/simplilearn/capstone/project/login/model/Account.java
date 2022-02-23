@@ -51,6 +51,10 @@ public class Account {
 	@JsonIgnore
     private User user;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+    private Customer customer;
+	
 	@Enumerated
 	private Status accountStatus;
 
