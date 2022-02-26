@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk
 COPY ./target/banking-app-0.0.1-SNAPSHOT.jar banking-app-0.0.1-SNAPSHOT.jar
-CMD ["java" ,"-jar","kitchen-story-0.0.1-SNAPSHOT.jar"]
+CMD ["java" ,"-jar","banking-app-0.0.1-SNAPSHOT.jar"]
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 #-> Create a image for springboot webservice
