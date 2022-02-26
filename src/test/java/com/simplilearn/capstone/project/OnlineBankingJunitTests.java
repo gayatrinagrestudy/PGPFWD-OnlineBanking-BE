@@ -1,4 +1,4 @@
-package com.simplilearn.capstone.project;
+/* package com.simplilearn.capstone.project;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -46,5 +46,5 @@ public class OnlineBankingJunitTests {
 	    pwd.submit();
 		}
 	
-	}
+	} */
 
