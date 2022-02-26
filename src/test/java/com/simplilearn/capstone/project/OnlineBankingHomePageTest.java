@@ -1,4 +1,4 @@
-package com.simplilearn.capstone.project;
+/* package com.simplilearn.capstone.project;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -35,4 +35,4 @@ class OnlineBankingHomePageTest {
     }
    driver.close();
 	}
-}
+} */
